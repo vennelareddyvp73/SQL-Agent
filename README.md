@@ -62,20 +62,20 @@ Track
 
 This agent is modeled as a state machine using LangGraph. The process is broken into steps that mimic how a human would query a database.
 
-- START
-  ↓
+START
+
 1. List Tables
-  ↓
+  
 2. Get Table Schema
-  ↓
+  
 3. Generate SQL Query
-  ↓
+  
 4. Check SQL Validity
-  ↓
+  
 5. Run Query
-  ↓
+  
 6. Generate Answer
-  ↓
+  
 
 END
 
