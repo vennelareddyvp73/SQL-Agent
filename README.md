@@ -38,27 +38,31 @@ Enable users to ask questions like:
 
 The Chinook database represents a **digital music store** with customers, artists, tracks, albums, genres, and invoices.
 
-### 🗃️ Sample Tables:
-- `Artist`, `Album`, `Track`, `Genre`
-- `Customer`, `Employee`, `Invoice`, `Playlist`, `PlaylistTrack`, `MediaType`
 
-Example structure:
+### 📂 Sample Table Schema
+
+```text
 Artist
-│
-├── ArtistId
+├── ArtistId (PK)
 └── Name
 
 Album
-│
-├── AlbumId
+├── AlbumId (PK)
 ├── Title
-└── ArtistId
+└── ArtistId (FK)
+
+Track
+├── TrackId (PK)
+├── Name
+├── AlbumId (FK)
+└── GenreId (FK)
+```
 
 ## 🔁 Flow of Execution (Agent Logic)
 
 This agent is modeled as a state machine using LangGraph. The process is broken into steps that mimic how a human would query a database.
 
-START
+- START
   ↓
 1. List Tables
   ↓
@@ -109,3 +113,14 @@ ORDER BY AvgDuration DESC
 LIMIT 5;
 ```
 
+### 4️⃣ Check SQL Query Validity
+- Tool: sql_db_query_checker
+- Purpose: Ensures the query is valid and executable.
+- Failure? ✅ If invalid, the flow loops back to regenerate a fixed query.
+
+### 5️⃣ Run Query
+- Tool: sql_db_query
+- Purpose: Executes the validated query and returns result rows.
+
+### 6️⃣ Generate Final Answer
+- Purpose: Converts the SQL output into a clear, natural-language response.
