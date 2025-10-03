@@ -1,4 +1,4 @@
-# 🧠 Conversational SQL Agent with LangGraph and Chinook Music Database
+#  Conversational SQL Agent with LangGraph and Chinook Music Database
 
 This project builds a powerful SQL agent that interprets **natural language queries** and executes them against the **Chinook** SQLite music database using **LangChain**, **LangGraph**, and **Qwen 1.7B** LLM from **Ollama**.
 
@@ -11,7 +11,7 @@ The agent is capable of:
 
 ---
 
-## 🎯 Project Objective
+##  Project Objective
 
 Enable users to ask questions like:
 > “Which artist has the most albums?”  
@@ -21,7 +21,7 @@ Enable users to ask questions like:
 
 ---
 
-## 🧠 Models and Tools Used
+##  Models and Tools Used
 
 | Component            | Tool/Model                          | Description                                      |
 |---------------------|-------------------------------------|--------------------------------------------------|
@@ -34,12 +34,12 @@ Enable users to ask questions like:
 
 ---
 
-## 🎵 The Chinook Dataset
+##  The Chinook Dataset
 
 The Chinook database represents a **digital music store** with customers, artists, tracks, albums, genres, and invoices.
 
 
-### 📂 Sample Table Schema
+###  Sample Table Schema
 
 ```text
 Artist
@@ -58,7 +58,7 @@ Track
 └── GenreId (FK)
 ```
 
-## 🔁 Flow of Execution (Agent Logic)
+##  Flow of Execution (Agent Logic)
 
 This agent is modeled as a state machine using LangGraph. The process is broken into steps that mimic how a human would query a database.
 
@@ -82,7 +82,7 @@ END
 
 ---
 
-## 🧩 What Each Step Does
+##  What Each Step Does
 
 ### 1️⃣ List Tables
 - **Tool**: `sql_db_list_tables`  
@@ -103,7 +103,7 @@ END
 - **Framework**: LangChain's ReAct-style prompting  
 - **Purpose**: The agent constructs a well-formed SQL query tailored to the user’s question, based on schema understanding.
 
-#### 💡 Example:
+####  Example:
 ```sql
 SELECT Genre.Name, AVG(Track.Milliseconds) AS AvgDuration
 FROM Genre
