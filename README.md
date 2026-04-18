@@ -84,21 +84,21 @@ END
 
 ##  What Each Step Does
 
-### 1️⃣ List Tables
+### 1️. List Tables
 - **Tool**: `sql_db_list_tables`  
 - **Purpose**: Lists all available tables in the database.  
 - **Why?** This gives the LLM an overview of what entities (like `Track`, `Album`, `Genre`, etc.) are available to query.
 
 ---
 
-### 2️⃣ Get Table Schema
+### 2️. Get Table Schema
 - **Tool**: `sql_db_schema`  
 - **Purpose**: Retrieves the column names, data types, and constraints for only the **relevant tables**.  
 - **Why?** Prevents guessing. The agent sees the **actual structure** of the tables it's querying.
 
 ---
 
-### 3️⃣ Generate SQL Query
+### 3️. Generate SQL Query
 - **Model**: `qwen3:1.7b`  
 - **Framework**: LangChain's ReAct-style prompting  
 - **Purpose**: The agent constructs a well-formed SQL query tailored to the user’s question, based on schema understanding.
@@ -113,14 +113,14 @@ ORDER BY AvgDuration DESC
 LIMIT 5;
 ```
 
-### 4️⃣ Check SQL Query Validity
+### 4️. Check SQL Query Validity
 - Tool: sql_db_query_checker
 - Purpose: Ensures the query is valid and executable.
-- Failure? ✅ If invalid, the flow loops back to regenerate a fixed query.
+- Failure?  If invalid, the flow loops back to regenerate a fixed query.
 
-### 5️⃣ Run Query
+### 5️. Run Query
 - Tool: sql_db_query
 - Purpose: Executes the validated query and returns result rows.
 
-### 6️⃣ Generate Final Answer
+### 6️.  Generate Final Answer
 - Purpose: Converts the SQL output into a clear, natural-language response.
