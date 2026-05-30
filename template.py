@@ -2,19 +2,19 @@ from pathlib import Path
 
 
 PROJECT_STRUCTURE = [
-
     "api/main.py",
-
     "frontend/app.py",
     "build_graph/graph.py",
+    "build_graph/state.py",
+    "build_graph/nodes/agent_node.py",
+    "build_graph/nodes/tool_node.py",
+    "build_graph/tool/list_tables.py",
+    "build_graph/tool/get_schema.py",
+    "build_graph/tool/query_checker.py",
+    "build_graph/tool/run_query.py",
     "models/llm.py",
-
     "db_ingestion/ingestion.py",
-    "sql_generation/test.py",
-    "tests/a.py",
-
     "notebook/sql_agent.ipynb",
-
 ]
 
 
