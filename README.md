@@ -48,27 +48,34 @@ Here is the layout of the SQL Agent project:
 
 ---
 
-##  Agent Workflow
+##  ReAct Agent Architecture
 
-The agent uses a cyclic state graph to query databases safely and accurately:
+The agent is implemented as a ReAct (Reasoning and Acting) loop using a stateful LangGraph workflow:
 
 ```mermaid
 graph TD
-    START([Start]) --> ListTables[1. List Tables]
-    ListTables --> InspectSchema[2. Get Table Schema]
-    InspectSchema --> GenQuery[3. Generate SQL Query]
-    GenQuery --> CheckQuery[4. Validate SQL Syntax]
-    CheckQuery --> RunQuery[5. Execute SQL Query]
-    RunQuery --> FinalAnswer[6. Generate Final Answer]
-    FinalAnswer --> END([End])
+    START([Start]) --> Agent[Agent Node <br> Reasoning / Decision]
+    Agent -->|Call Tools| Tools[Tool Node <br> Action Execution]
+    Tools --> Agent
+    Agent -->|Return Answer| END([End])
 ```
 
-1. **List Tables (`sql_db_list_tables`)**: Identifies available tables in the target database.
-2. **Get Schema (`sql_db_schema`)**: Inspects columns, keys, and constraints only for the tables relevant to the user query.
-3. **Generate SQL Query**: Builds a specific SQL query using schema context.
-4. **Validate Query (`sql_db_query_checker`)**: Inspects query syntax to prevent SQL errors.
-5. **Run Query (`sql_db_query`)**: Executes the SQL statement and returns the rows.
-6. **Generate Answer**: Formulates a friendly, natural language answer using the database results.
+### Components of the ReAct Loop:
+
+1. **Agent Node (Reasoning)**:
+   - Receives the conversation history and guides the flow.
+   - Evaluates whether it has enough information to construct a final response. If not, it requests to call one or more of the database tools.
+
+2. **Tool Node (Acting)**:
+   - Executes the tool calls requested by the Agent. The available tools include:
+     - `sql_db_list_tables`: Lists all available tables in the database.
+     - `sql_db_schema`: Retrieves column definitions, data types, and keys for selected tables.
+     - `sql_db_query_checker`: Validates the syntax of the generated SQL query before execution.
+     - `sql_db_query`: Executes the query against the database and returns the raw rows.
+
+3. **Loop Execution**:
+   - The state machine transitions back and forth between the Agent and Tool nodes.
+   - Once the Agent node obtains the query results and determines no further actions are needed, it generates a natural language answer and routes the flow to the end state.
 
 ---
 
